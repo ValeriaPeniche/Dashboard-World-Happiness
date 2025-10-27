@@ -4,7 +4,7 @@
 - Angelica Peñaloza Bermudez
 - Valeria Estefania Peniche Santos
 
-## 📊 Descripción del Proyecto
+## Descripción del Proyecto
 
 ### Objetivo
 Este proyecto consiste en el desarrollo de un dashboard interactivo para el análisis del **World Happiness Report**, permitiendo explorar y visualizar los factores que influyen en la felicidad global desde una perspectiva académica y de investigación.
@@ -27,5 +27,3 @@ Este proyecto consiste en el desarrollo de un dashboard interactivo para el aná
 - **Herramientas de BD**: DBeaver
 - **Visualización**: Chart.js / D3.js
 - **Deploy**: GitHub Pages / Netlify
-
-### 📁 Estructura del Proyecto
