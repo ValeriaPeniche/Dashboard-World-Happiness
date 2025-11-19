@@ -1,0 +1,190 @@
+.mapa-container {
+  background: var(--color-fondo-tarjeta);
+  border: 1px solid var(--color-borde);
+  border-radius: 12px;
+  padding: 1.5rem;
+  box-shadow: 0 2px 8px var(--color-sombra);
+  margin-bottom: 1.5rem;
+}
+
+.mapa-titulo {
+  color: var(--color-texto);
+  margin-bottom: 1rem;
+  font-size: 1.3rem;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.mapa-wrapper {
+  position: relative;
+  border-radius: 8px;
+  overflow: hidden;
+  border: 1px solid var(--color-borde);
+}
+
+.mapa-leaflet {
+  border-radius: 8px;
+}
+
+/* Leyenda del mapa */
+.mapa-leyenda {
+  position: absolute;
+  bottom: 20px;
+  right: 20px;
+  background: rgba(255, 255, 255, 0.95);
+  padding: 1rem;
+  border-radius: 8px;
+  border: 1px solid var(--color-borde);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  z-index: 1000;
+  min-width: 200px;
+  backdrop-filter: blur(10px);
+}
+
+.leyenda-titulo {
+  font-weight: 700;
+  margin-bottom: 0.75rem;
+  color: var(--color-texto);
+  font-size: 0.9rem;
+  border-bottom: 1px solid var(--color-borde);
+  padding-bottom: 0.5rem;
+}
+
+.leyenda-items {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.leyenda-item {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.leyenda-color {
+  width: 20px;
+  height: 20px;
+  border-radius: 4px;
+  border: 1px solid var(--color-borde);
+  flex-shrink: 0;
+}
+
+/* Popup styles */
+.popup-content {
+  text-align: center;
+  min-width: 180px;
+}
+
+.popup-content h4 {
+  margin: 0 0 0.5rem 0;
+  color: var(--color-texto);
+  font-size: 1.1rem;
+}
+
+.popup-content p {
+  margin: 0.25rem 0;
+  font-size: 0.9rem;
+}
+
+.popup-content strong {
+  color: var(--color-texto);
+}
+
+.nivel-felicidad {
+  margin-top: 0.5rem;
+  padding: 0.5rem;
+  border-radius: 6px;
+  font-weight: 600;
+  font-size: 0.85rem;
+}
+
+.nivel-felicidad.muy-feliz {
+  background-color: rgba(255, 195, 0, 0.2);
+  color: #B45309;
+}
+
+.nivel-felicidad.feliz {
+  background-color: rgba(255, 149, 5, 0.2);
+  color: #C2410C;
+}
+
+.nivel-felicidad.moderado {
+  background-color: rgba(240, 128, 128, 0.2);
+  color: #DC2626;
+}
+
+.nivel-felicidad.bajo {
+  background-color: rgba(226, 232, 240, 0.5);
+  color: #475569;
+}
+
+/* Información del mapa */
+.mapa-info {
+  margin-top: 1rem;
+  padding-top: 1rem;
+  border-top: 1px solid var(--color-borde);
+}
+
+.mapa-info p {
+  margin-bottom: 0.5rem;
+  color: var(--color-texto-secundario);
+  font-size: 0.9rem;
+}
+
+.mapa-estadisticas {
+  background: var(--color-fondo);
+  padding: 0.75rem;
+  border-radius: 6px;
+  border: 1px solid var(--color-borde);
+}
+
+.estadisticas-lista {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  margin-top: 0.5rem;
+}
+
+.estadisticas-lista span {
+  font-size: 0.85rem;
+  color: var(--color-texto-secundario);
+}
+
+.estadisticas-lista strong {
+  color: var(--color-texto);
+}
+
+/* Estado de carga */
+.mapa-cargando {
+  height: 200px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--color-fondo);
+  border-radius: 8px;
+  border: 2px dashed var(--color-borde);
+  color: var(--color-texto-secundario);
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .mapa-container {
+    padding: 1rem;
+  }
+  
+  .mapa-leyenda {
+    position: relative;
+    bottom: auto;
+    right: auto;
+    margin-top: 1rem;
+    min-width: auto;
+  }
+  
+  .estadisticas-lista {
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+}
