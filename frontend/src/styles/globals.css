@@ -363,3 +363,33 @@ input:focus {
   color: var(--color-texto);
   font-size: 1.2rem;
 }
+
+/**********************
+/* 12. TOOLTIPS INFORMATIVOS */
+.kpi-descripcion small {
+  opacity: 0.7;
+  font-size: 0.7rem;
+}
+
+/* Tooltip básico */
+[kpi-tooltip] {
+  position: relative;
+  cursor: help;
+}
+
+[kpi-tooltip]:hover::after {
+  content: attr(kpi-tooltip);
+  position: absolute;
+  bottom: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  background: rgba(0, 0, 0, 0.8);
+  color: white;
+  padding: 0.5rem;
+  border-radius: 4px;
+  font-size: 0.75rem;
+  white-space: pre-line;
+  z-index: 1000;
+  min-width: 200px;
+  text-align: center;
+}
