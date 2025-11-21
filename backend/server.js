@@ -20,7 +20,9 @@ app.use(express.json());
 // Conexión a PostgreSQL usando Render DATABASE_URL
 const pool = new Pool({
   connectionString: process.env.DATABASE_URL,
-  ssl: { rejectUnauthorized: false }
+  ssl: {
+    rejectUnauthorized: false
+  }
 });
 
 // Middleware de logging
@@ -30,7 +32,7 @@ app.use((req, res, next) => {
 });
 
 // ---------------------
-// RUTAS DE LA API
+// Rutas de la API
 // ---------------------
 
 // Ruta de prueba
@@ -65,7 +67,7 @@ app.get('/api/regiones', async (req, res) => {
   }
 });
 
-// Datos para el mapa
+// Datos del mapa
 app.get('/api/mapa', async (req, res) => {
   const { anio = '2024', region = 'todas' } = req.query;
 
@@ -258,14 +260,13 @@ app.get('/api/evolucion', async (req, res) => {
 });
 
 // ---------------------
-// Manejo de errores global
+// Manejo de errores y ruta 404
 // ---------------------
 app.use((error, req, res, next) => {
   console.error('💥 Error global:', error);
   res.status(500).json({ error: 'Error interno del servidor' });
 });
 
-// Ruta no encontrada (AL FINAL)
 app.use('*', (req, res) => {
   res.status(404).json({ error: 'Ruta no encontrada' });
 });
