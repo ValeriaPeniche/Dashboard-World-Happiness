@@ -3,7 +3,16 @@ const cors = require('cors');
 const { Pool } = require('pg');
 
 const app = express();
-app.use(cors());
+const corsOptions = {
+  origin: [
+    'http://localhost:5173', // para desarrollo local con Vite
+    'https://proyecto1-felicidad.vercel.app' // tu frontend en Vercel
+  ],
+  optionsSuccessStatus: 200
+};
+
+app.use(cors(corsOptions));
+
 app.use(express.json());
 
 // Conexión a PostgreSQL usando External Database URL de Render
