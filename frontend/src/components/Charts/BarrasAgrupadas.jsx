@@ -32,8 +32,8 @@ const BarrasAgrupadas = ({ datos = [] }) => {
         }
         
         // Buscar valores dinámicamente
-        const libertad = item.freedom_to_make_life_choices || item.libertad || 0;
-        const felicidad = item.ladder_score || item.felicidad || item.score || 0;
+        const libertad = item.libertad || item.freedom_to_make_life_choices || item.libertad_promedio || 0;
+        const felicidad = item.felicidad || item.ladder_score || item.felicidad_promedio || item.score || 0;
         
         regiones[item.region].libertad += parseFloat(libertad);
         regiones[item.region].felicidad += parseFloat(felicidad);
