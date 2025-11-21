@@ -20,9 +20,7 @@ app.use(express.json());
 // Conexión a PostgreSQL usando Render DATABASE_URL
 const pool = new Pool({
   connectionString: process.env.DATABASE_URL,
-  ssl: {
-    rejectUnauthorized: false
-  }
+  ssl: { rejectUnauthorized: false }
 });
 
 // Middleware de logging
@@ -32,7 +30,7 @@ app.use((req, res, next) => {
 });
 
 // ---------------------
-// Rutas de la API
+// RUTAS DE LA API
 // ---------------------
 
 // Ruta de prueba
@@ -67,7 +65,7 @@ app.get('/api/regiones', async (req, res) => {
   }
 });
 
-// Datos del mapa
+// Datos para el mapa
 app.get('/api/mapa', async (req, res) => {
   const { anio = '2024', region = 'todas' } = req.query;
 
@@ -103,18 +101,171 @@ app.get('/api/mapa', async (req, res) => {
   }
 });
 
-// Otros endpoints: /api/dispersion, /api/kpis, /api/apoyo-social, /api/libertad-regiones, /api/evolucion
-// [Puedes copiar exactamente como los tienes ahora]
+// Datos para gráfico de dispersión
+app.get('/api/dispersion', async (req, res) => {
+  const { anio = '2024', region = 'todas' } = req.query;
+
+  let query = `
+    SELECT c.country_name as pais,
+           h.gdp_per_capita as pib,
+           h.ladder_score as felicidad,
+           r.region_name as region,
+           h.year
+    FROM happiness_data h
+    JOIN countries c ON h.country_id = c.id
+    JOIN regions r ON c.region_id = r.id
+    WHERE h.year = $1
+  `;
+  const params = [anio];
+
+  if (region !== 'todas') {
+    query += ' AND r.region_name = $2';
+    params.push(region);
+  }
+
+  try {
+    const result = await pool.query(query, params);
+    res.json(result.rows);
+  } catch (error) {
+    console.error('❌ Error en dispersión:', error);
+    res.status(500).json({ error: error.message });
+  }
+});
+
+// KPIs
+app.get('/api/kpis', async (req, res) => {
+  const { anio = '2024', region = 'todas' } = req.query;
+
+  let query = `
+    SELECT 
+      ROUND(AVG(h.ladder_score)::numeric, 3) as felicidad_promedio,
+      ROUND(AVG(h.gdp_per_capita)::numeric, 3) as pib_promedio,
+      ROUND(AVG(h.social_support)::numeric, 3) as apoyo_social_promedio,
+      ROUND(AVG(h.healthy_life_expectancy)::numeric, 1) as esperanza_vida_promedio,
+      ROUND(AVG(h.freedom_to_make_life_choices)::numeric, 3) as libertad_promedio,
+      COUNT(*) as total_paises
+    FROM happiness_data h
+    JOIN countries c ON h.country_id = c.id
+    JOIN regions r ON c.region_id = r.id
+    WHERE h.year = $1
+  `;
+  const params = [anio];
+
+  if (region !== 'todas') {
+    query += ' AND r.region_name = $2';
+    params.push(region);
+  }
+
+  try {
+    const result = await pool.query(query, params);
+    res.json(result.rows[0]);
+  } catch (error) {
+    console.error('❌ Error en KPIs:', error);
+    res.status(500).json({ error: error.message });
+  }
+});
+
+// Apoyo social
+app.get('/api/apoyo-social', async (req, res) => {
+  const { anio = '2024', region = 'todas' } = req.query;
+
+  let query = `
+    SELECT c.country_name as pais,
+           h.social_support as social_support,
+           r.region_name as region,
+           h.year,
+           h.ladder_score
+    FROM happiness_data h
+    JOIN countries c ON h.country_id = c.id
+    JOIN regions r ON c.region_id = r.id
+    WHERE h.year = $1 AND h.social_support IS NOT NULL
+  `;
+  const params = [anio];
+
+  if (region !== 'todas') {
+    query += ' AND r.region_name = $2';
+    params.push(region);
+  }
+
+  query += ' ORDER BY h.social_support DESC';
+
+  try {
+    const result = await pool.query(query, params);
+    res.json(result.rows);
+  } catch (error) {
+    console.error('❌ Error en apoyo social:', error);
+    res.status(500).json({ error: error.message });
+  }
+});
+
+// Libertad por regiones
+app.get('/api/libertad-regiones', async (req, res) => {
+  const { anio = '2024' } = req.query;
+
+  const query = `
+    SELECT r.region_name as region,
+           ROUND(AVG(h.freedom_to_make_life_choices)::numeric, 3) as libertad_promedio,
+           ROUND(AVG(h.ladder_score)::numeric, 3) as felicidad_promedio,
+           COUNT(*) as cantidad_paises
+    FROM happiness_data h
+    JOIN countries c ON h.country_id = c.id
+    JOIN regions r ON c.region_id = r.id
+    WHERE h.year = $1 AND h.freedom_to_make_life_choices IS NOT NULL
+    GROUP BY r.region_name
+    HAVING COUNT(*) > 0
+    ORDER BY felicidad_promedio DESC
+  `;
+
+  try {
+    const result = await pool.query(query, [anio]);
+    res.json(result.rows);
+  } catch (error) {
+    console.error('❌ Error en libertad regiones:', error);
+    res.status(500).json({ error: error.message });
+  }
+});
+
+// Evolución temporal
+app.get('/api/evolucion', async (req, res) => {
+  const { region = 'todas' } = req.query;
+
+  let query = `
+    SELECT h.year,
+           ROUND(AVG(h.healthy_life_expectancy)::numeric, 1) as esperanza_vida,
+           ROUND(AVG(h.ladder_score)::numeric, 3) as felicidad,
+           COUNT(*) as paises
+    FROM happiness_data h
+    JOIN countries c ON h.country_id = c.id
+    JOIN regions r ON c.region_id = r.id
+    WHERE h.healthy_life_expectancy IS NOT NULL
+  `;
+  const params = [];
+
+  if (region !== 'todas') {
+    query += ' AND r.region_name = $1';
+    params.push(region);
+  }
+
+  query += ' GROUP BY h.year ORDER BY h.year ASC';
+
+  try {
+    const result = await pool.query(query, params);
+    res.json(result.rows);
+  } catch (error) {
+    console.error('❌ Error en evolución:', error);
+    res.status(500).json({ error: error.message });
+  }
+});
 
 // ---------------------
-// Manejo de errores
+// Manejo de errores global
 // ---------------------
 app.use((error, req, res, next) => {
   console.error('💥 Error global:', error);
   res.status(500).json({ error: 'Error interno del servidor' });
 });
 
-// Ruta no encontrada
+// Ruta no encontrada (AL FINAL)
 app.use('*', (req, res) => {
   res.status(404).json({ error: 'Ruta no encontrada' });
 });
