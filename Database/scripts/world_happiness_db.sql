@@ -1,4 +1,3 @@
--- Comentario prueba
 -- Crear la base de datos
 CREATE DATABASE IF NOT EXISTS world_happiness_db;
 USE world_happiness_db;
