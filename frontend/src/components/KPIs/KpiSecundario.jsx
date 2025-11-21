@@ -6,25 +6,45 @@ const KpiSecundario = ({
   valor, 
   descripcion, 
   color = 'datos-contraste',
-  tendencia = null // 'up', 'down', o null
+  tipoMetrica = 'pib'
 }) => {
-  const getTendenciaIcon = () => {
-    if (tendencia === 'up') return '↗';
-    if (tendencia === 'down') return '↘';
-    return '';
+  
+  const getContexto = () => {
+    const contextos = {
+      pib: {
+        bueno: 10.5,  // Países desarrollados
+        promedio: 9.5, // Países en desarrollo
+        escala: "escala logarítmica",
+      },
+      social: {
+        bueno: 0.90,
+        promedio: 0.75,
+        escala: "0-1",
+      },
+      vida: {
+        bueno: 72,
+        promedio: 65,
+        escala: "años",
+      },
+      libertad: {
+        bueno: 0.90,
+        promedio: 0.70,
+        escala: "0-1", 
+      }
+    };
+    
+    return contextos[tipoMetrica] || null;
   };
+
+  const contexto = getContexto();
 
   return (
     <KpiCard 
       titulo={titulo}
-      valor={
-        <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-          {valor}
-          {tendencia && <span style={{ fontSize: '1.2rem' }}>{getTendenciaIcon()}</span>}
-        </div>
-      }
+      valor={valor}
       descripcion={descripcion}
       color={color}
+      contexto={contexto}
     />
   );
 };
