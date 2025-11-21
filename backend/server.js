@@ -1,23 +1,39 @@
+// server.js
 const express = require('express');
 const cors = require('cors');
 const { Pool } = require('pg');
 
 const app = express();
 
-// Configuración de CORS
+// ---------------------
+// Configuración CORS
+// ---------------------
+const allowedOrigins = [
+  'http://localhost:5173', // desarrollo local
+  'https://proyecto1felicidad.vercel.app' // frontend en Vercel
+];
+
 const corsOptions = {
-  origin: [
-    'http://localhost:5173', // desarrollo local
-    'https://proyecto1-felicidad.vercel.app' // frontend en Vercel
-  ],
-  optionsSuccessStatus: 200
+  origin: function (origin, callback) {
+    // Permitir requests sin origin (Postman, curl, etc.)
+    if (!origin) return callback(null, true);
+
+    if (allowedOrigins.indexOf(origin) !== -1) {
+      callback(null, true);
+    } else {
+      callback(new Error('No permitido por CORS'));
+    }
+  },
+  credentials: true,
 };
 app.use(cors(corsOptions));
 
 // Para recibir JSON
 app.use(express.json());
 
-// Conexión a PostgreSQL usando Render DATABASE_URL
+// ---------------------
+// Conexión a PostgreSQL
+// ---------------------
 const pool = new Pool({
   connectionString: process.env.DATABASE_URL,
   ssl: {
@@ -260,7 +276,7 @@ app.get('/api/evolucion', async (req, res) => {
 });
 
 // ---------------------
-// Manejo de errores y ruta 404
+// Manejo de errores y 404
 // ---------------------
 app.use((error, req, res, next) => {
   console.error('💥 Error global:', error);
@@ -271,7 +287,9 @@ app.use('*', (req, res) => {
   res.status(404).json({ error: 'Ruta no encontrada' });
 });
 
+// ---------------------
 // Puerto dinámico para Render
+// ---------------------
 const PORT = process.env.PORT || 3001;
 app.listen(PORT, () => {
   console.log(`🚀 Servidor API ejecutándose en http://localhost:${PORT}`);
