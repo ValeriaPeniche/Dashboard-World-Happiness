@@ -1,0 +1,365 @@
+@import './colors.css';
+
+/**********************
+/* 1. BASE */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html, body {
+  width: 100%;
+  min-height: 100vh;
+}
+
+body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background-color: var(--color-fondo);
+  color: var(--color-texto);
+  line-height: 1.6;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+}
+
+/**********************
+/* 2. LAYOUT PRINCIPAL - CORREGIDO */
+.app {
+  width: 100%;
+  max-width: 1200px;
+  min-height: 100vh;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/**********************
+/* 3. TIPOGRAFÍA */
+h1 {
+  font-size: 2.5rem;
+  font-weight: 700;
+  margin-bottom: 1rem;
+}
+
+h2 {
+  font-size: 1.8rem;
+  font-weight: 600;
+  color: var(--color-texto);
+  margin-bottom: 0.75rem;
+}
+
+h3 {
+  font-size: 1.3rem;
+  font-weight: 600;
+  color: var(--color-texto);
+  margin-bottom: 0.5rem;
+}
+
+p {
+  color: var(--color-texto-secundario);
+  margin-bottom: 1rem;
+}
+
+/**********************
+/* 4. COMPONENTES: ENCABEZADO */
+.header {
+  text-align: center;
+  margin-bottom: 0.5rem;
+  padding: 0.5rem 0;
+  width: 100%;
+}
+
+.subtitulo {
+  font-size: 1.2rem;
+  color: var(--color-texto-secundario);
+  font-weight: 400;
+  margin-top: -0.3rem;
+  margin-bottom: 0.3rem;
+}
+
+.titulo-con-borde {
+  font-size: 2.5rem;
+  font-weight: 800;
+  color: var(--color-felicidad);
+  -webkit-text-stroke: 1.5px var(--color-texto);
+  margin-bottom: 0.3rem;
+  letter-spacing: -0.5px;
+}
+
+/**********************
+/* 5. COMPONENTES: FILTROS */
+.filtros-container {
+  background-color: var(--color-fondo-tarjeta);
+  border: 1px solid var(--color-borde);
+  border-radius: 12px;
+  padding: 1.5rem;
+  margin-bottom: 2rem;
+  box-shadow: 0 2px 8px var(--color-sombra);
+  width: 100%;
+}
+
+.filtros {
+  display: flex;
+  gap: 1.5rem;
+  align-items: flex-end;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.filtro-grupo {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.filtro-label {
+  font-weight: 600;
+  color: var(--color-texto);
+  font-size: 0.9rem;
+}
+
+.filtro-select {
+  padding: 0.5rem 1rem;
+  border: 2px solid var(--color-borde);
+  border-radius: 8px;
+  background-color: white;
+  color: var(--color-texto);
+  font-size: 1rem;
+  min-width: 150px;
+  transition: all 0.2s ease;
+}
+
+.filtro-select:focus {
+  border-color: var(--color-felicidad);
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(255, 195, 0, 0.1);
+}
+
+.filtro-select:hover {
+  border-color: var(--color-datos-contraste);
+}
+
+.filtros-info {
+  margin-top: 1rem;
+  padding-top: 1rem;
+  border-top: 1px solid var(--color-borde);
+}
+
+.info-text {
+  color: var(--color-texto-secundario);
+  font-size: 0.9rem;
+}
+
+/**********************
+/* 6. CONTENEDOR DE PRUEBA */
+.contenedor-prueba {
+  background: var(--color-fondo-tarjeta);
+  border: 2px dashed var(--color-borde);
+  border-radius: 12px;
+  padding: 3rem;
+  text-align: center;
+  color: var(--color-texto-secundario);
+  width: 100%;
+  margin-top: 1rem;
+}
+
+/**********************
+/* 7. UTILIDADES */
+.mb-1 { margin-bottom: 0.5rem; }
+.mb-2 { margin-bottom: 1rem; }
+.mb-3 { margin-bottom: 1.5rem; }
+.mt-1 { margin-top: 0.5rem; }
+.mt-2 { margin-top: 1rem; }
+.mt-3 { margin-top: 1.5rem; }
+
+.p-1 { padding: 0.5rem; }
+.p-2 { padding: 1rem; }
+.p-3 { padding: 1.5rem; }
+
+/**********************
+/* 8. ACCESIBILIDAD */
+button:focus,
+select:focus,
+input:focus {
+  outline: 2px solid var(--color-felicidad);
+  outline-offset: 2px;
+}
+
+/**********************
+/* 9. COMPONENTES: KPIs */
+.kpi-card {
+  border-radius: 12px;
+  padding: 1.5rem;
+  box-shadow: 0 4px 12px var(--color-sombra);
+  transition: all 0.3s ease;
+  min-height: 140px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 2px solid transparent;
+  text-align: center
+}
+
+.kpi-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px var(--color-sombra);
+}
+
+.kpi-content {
+  width: 100%;
+  text-align: center; 
+  display: flex;
+  flex-direction: column;
+  align-items: center; 
+  justify-content: center;
+}
+
+.kpi-titulo {
+  font-size: 1rem;
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+  opacity: 0.9;
+  align-items: center;
+}
+
+.kpi-valor-principal {
+  font-size: 2.5rem;
+  font-weight: 800;
+  margin-bottom: 0.5rem;
+  line-height: 1;
+  align-items: center;
+}
+
+.kpi-valor-secundario {
+  font-size: 1.8rem; 
+  font-weight: 700;
+  margin-bottom: 0.5rem;
+  line-height: 1;
+  align-items: center;
+}
+
+.kpi-descripcion {
+  font-size: 0.8rem; /* Reducido para 5 columnas */
+  opacity: 0.8;
+  margin: 0;
+  font-weight: 500;
+}
+
+/* Grid de KPIs */
+.kpis-grid {
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr 1fr 1fr; /* 5 columnas */
+  gap: 1rem;
+  width: 100%;
+  margin-bottom: 2rem;
+}
+
+/* Responsive para KPIs */
+@media (max-width: 1024px) {
+  .kpis-grid {
+    grid-template-columns: 1fr 1fr; /* 2 columnas en tablets */
+    gap: 1rem;
+  }
+  
+  .kpi-card:first-child {
+    grid-column: 1 / -1; /* KPI principal ocupa toda la fila */
+  }
+}
+
+@media (max-width: 768px) {
+  .kpis-grid {
+    grid-template-columns: 1fr; /* 1 columna en móviles */
+    gap: 1rem;
+  }
+  
+  .kpi-card {
+    min-height: 120px;
+    padding: 1rem;
+  }
+  
+  .kpi-valor-principal {
+    font-size: 2rem;
+  }
+  
+  .kpi-valor-secundario {
+    font-size: 1.7rem;
+  }
+  
+  .kpi-descripcion {
+    font-size: 0.75rem;
+  }
+}
+
+/**********************
+/* 10. DISEÑO RESPONSIVO */
+@media (max-width: 768px) {
+  .app {
+    padding: 15px;
+  }
+  
+  .titulo-con-borde {
+    font-size: 2rem;
+    -webkit-text-stroke: 1px var(--color-texto);
+  }
+  
+  .subtitulo {
+    font-size: 1rem;
+  }
+  
+  .filtros {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 1rem;
+  }
+  
+  .filtro-grupo {
+    width: 100%;
+  }
+  
+  .filtro-select {
+    min-width: auto;
+    width: 100%;
+  }
+  
+  .btn-reset {
+    width: 100%;
+    margin-top: 0.5rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .app {
+    padding: 10px;
+  }
+  
+  .titulo-con-borde {
+    font-size: 1.7rem;
+  }
+  
+  .filtros-container {
+    padding: 1rem;
+  }
+  
+  .contenedor-prueba {
+    padding: 1.5rem;
+  }
+}
+
+/**********************
+/* 11. COMPONENTES: GRÁFICOS */
+.grafico-container {
+  background: var(--color-fondo-tarjeta);
+  border: 1px solid var(--color-borde);
+  border-radius: 12px;
+  padding: 1.5rem;
+  box-shadow: 0 2px 8px var(--color-sombra);
+  height: fit-content;
+}
+
+.grafico-container h3 {
+  margin-bottom: 1rem;
+  color: var(--color-texto);
+  font-size: 1.2rem;
+}
