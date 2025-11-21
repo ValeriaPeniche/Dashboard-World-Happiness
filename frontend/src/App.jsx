@@ -4,6 +4,8 @@ import Header from './components/Layout/Header';
 import Filtros from './components/Layout/Filtros';
 import DashboardGrid from './components/Layout/DashboardGrid';
 
+const BASE_URL = import.meta.env.VITE_BACKEND_URL;
+
 function App() {
   const [filtroAnio, setFiltroAnio] = useState('2024');
   const [filtroRegion, setFiltroRegion] = useState('todas');
@@ -16,18 +18,16 @@ function App() {
   });
   const [cargando, setCargando] = useState(true);
 
-  // Cuando cambien los filtros, recargar TODOS los datos
   useEffect(() => {
     const cargarDatos = async () => {
       setCargando(true);
-      
       try {
         const [kpisRes, mapaRes, dispersionRes, apoyoSocialRes, libertadRes] = await Promise.all([
-          fetch(`http://localhost:3001/api/kpis?anio=${filtroAnio}&region=${filtroRegion}`),
-          fetch(`http://localhost:3001/api/mapa?anio=${filtroAnio}&region=${filtroRegion}`),
-          fetch(`http://localhost:3001/api/dispersion?anio=${filtroAnio}&region=${filtroRegion}`),
-          fetch(`http://localhost:3001/api/apoyo-social?anio=${filtroAnio}&region=${filtroRegion}`),
-          fetch(`http://localhost:3001/api/libertad-regiones?anio=${filtroAnio}`)
+          fetch(`${BASE_URL}/api/kpis?anio=${filtroAnio}&region=${filtroRegion}`),
+          fetch(`${BASE_URL}/api/mapa?anio=${filtroAnio}&region=${filtroRegion}`),
+          fetch(`${BASE_URL}/api/dispersion?anio=${filtroAnio}&region=${filtroRegion}`),
+          fetch(`${BASE_URL}/api/apoyo-social?anio=${filtroAnio}&region=${filtroRegion}`),
+          fetch(`${BASE_URL}/api/libertad-regiones?anio=${filtroAnio}`)
         ]);
 
         const [kpis, mapa, dispersion, apoyoSocial, libertad] = await Promise.all([
@@ -81,7 +81,7 @@ function App() {
       <div className="app">
         <Header />
         <div className="contenedor-prueba">
-          <h3>🔄 Conectando con base de datos MySQL...</h3>
+          <h3>🔄 Conectando con base de datos...</h3>
         </div>
       </div>
     );
